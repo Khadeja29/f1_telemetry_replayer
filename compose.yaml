@@ -1,0 +1,15 @@
+services:
+  timescaledb:
+    image: timescale/timescaledb:latest-pg16
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: f1
+      POSTGRES_PASSWORD: f1password # TODO: Change
+      POSTGRES_DB: telemetry
+    volumes:
+      - timescale-data:/var/lib/postgresql/data
+      - ./db/init/001_car_telemetry.sql:/docker-entrypoint-initdb.d/100_car_telemetry.sql:ro
+
+volumes:
+  timescale-data:
