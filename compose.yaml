@@ -10,6 +10,9 @@ services:
     volumes:
       - timescale-data:/var/lib/postgresql/data
       - ./db/init/001_car_telemetry.sql:/docker-entrypoint-initdb.d/100_car_telemetry.sql:ro
+      - ./db/init/002_sessions.sql:/docker-entrypoint-initdb.d/101_sessions.sql:ro
+      - ./db/init/003_laps.sql:/docker-entrypoint-initdb.d/102_laps.sql:ro
+      - ./db/init/004_weather.sql:/docker-entrypoint-initdb.d/103_weather.sql:ro
 
 volumes:
   timescale-data:
