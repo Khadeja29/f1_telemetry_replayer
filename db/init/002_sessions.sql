@@ -7,5 +7,6 @@ CREATE TABLE sessions (
     circuit        TEXT,
     session_type   TEXT        NOT NULL,      -- 'R' race, 'Q' qualifying, ...
     start_time     TIMESTAMPTZ NOT NULL,
+    end_time       TIMESTAMPTZ,
     loaded_at      TIMESTAMPTZ NOT NULL DEFAULT now()
 );

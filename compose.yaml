@@ -4,15 +4,31 @@ services:
     ports:
       - "5432:5432"
     environment:
-      POSTGRES_USER: f1
-      POSTGRES_PASSWORD: f1password # TODO: Change
-      POSTGRES_DB: telemetry
+      POSTGRES_USER: ${PGUSER:-f1}
+      POSTGRES_PASSWORD: ${PGPASSWORD:-f1password}
+      POSTGRES_DB: ${PGDATABASE:-telemetry}
     volumes:
       - timescale-data:/var/lib/postgresql/data
       - ./db/init/001_car_telemetry.sql:/docker-entrypoint-initdb.d/100_car_telemetry.sql:ro
       - ./db/init/002_sessions.sql:/docker-entrypoint-initdb.d/101_sessions.sql:ro
       - ./db/init/003_laps.sql:/docker-entrypoint-initdb.d/102_laps.sql:ro
       - ./db/init/004_weather.sql:/docker-entrypoint-initdb.d/103_weather.sql:ro
+
+  dashboard:
+    build:
+      context: .
+      dockerfile: dashboard/Dockerfile
+    ports:
+      - "8501:8501"
+    environment:
+      # Use the compose service name, not 127.0.0.1 (which points at this container)
+      PGHOST: timescaledb
+      PGPORT: 5432
+      PGDATABASE: ${PGDATABASE:-telemetry}
+      PGUSER: ${PGUSER:-f1}
+      PGPASSWORD: ${PGPASSWORD:-f1password}
+    depends_on:
+      - timescaledb
 
 volumes:
   timescale-data:

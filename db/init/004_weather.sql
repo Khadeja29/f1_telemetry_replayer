@@ -11,3 +11,8 @@ CREATE TABLE weather (
 );
 
 SELECT create_hypertable('weather', by_range('time'));
+
+-- Required for the loader's ON CONFLICT (time, session_key) DO NOTHING.
+-- Without this index, re-running a load inserts every row again as a duplicate.
+CREATE UNIQUE INDEX IF NOT EXISTS weather_time_session_uq
+    ON weather (time, session_key);
