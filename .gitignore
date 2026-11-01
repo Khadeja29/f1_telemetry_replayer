@@ -1,0 +1,24 @@
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.pytest_cache/
+.ipynb_checkpoints/
+
+# Secrets
+.env
+
+# Datasets (too large for git; download locally)
+data/
+*.csv
+*.parquet
+
+# Local caches
+.fastf1_cache/
+cache/
+
+# OS / editor
+.DS_Store
+.vscode/
+.idea/
